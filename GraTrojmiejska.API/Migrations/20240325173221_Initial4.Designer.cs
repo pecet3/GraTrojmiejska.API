@@ -3,6 +3,7 @@ using System;
 using GraTrojmiejska.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,14 +11,59 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GraTrojmiejska.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240325173221_Initial4")]
+    partial class Initial4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
 
-            modelBuilder.Entity("GraTrojmiejska.API.Entities.AuthUser", b =>
+            modelBuilder.Entity("GraTrojmiejska.API.Entities.Coordinate", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Latitude")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Longitude")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Coordinates", (string)null);
+                });
+
+            modelBuilder.Entity("GraTrojmiejska.API.Entities.MapPoint", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CoordinateId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CoordinateId");
+
+                    b.ToTable("MapPoints");
+                });
+
+            modelBuilder.Entity("GraTrojmiejska.API.Entities.MyUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -27,6 +73,10 @@ namespace GraTrojmiejska.API.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CurrentPositionId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -71,6 +121,8 @@ namespace GraTrojmiejska.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CurrentPositionId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -79,102 +131,6 @@ namespace GraTrojmiejska.API.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("GraTrojmiejska.API.Entities.Coordinate", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("Latitude")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("Longitude")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Coordinates", (string)null);
-                });
-
-            modelBuilder.Entity("GraTrojmiejska.API.Entities.GameUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CurrentPositionId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurrentPositionId");
-
-                    b.ToTable("GameUsers");
-                });
-
-            modelBuilder.Entity("GraTrojmiejska.API.Entities.MapPoint", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CoordinateId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateOnly>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CurrentOwnerId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CoordinateId");
-
-                    b.ToTable("MapPoints");
-                });
-
-            modelBuilder.Entity("GraTrojmiejska.API.Entities.MapPointHistoryElement", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateOnly>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateOnly>("EndedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("MapPointId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("OwnerId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MapPointId");
-
-                    b.ToTable("MapPointHistoryElement");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -305,17 +261,6 @@ namespace GraTrojmiejska.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("GraTrojmiejska.API.Entities.GameUser", b =>
-                {
-                    b.HasOne("GraTrojmiejska.API.Entities.Coordinate", "CurrentPosition")
-                        .WithMany()
-                        .HasForeignKey("CurrentPositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CurrentPosition");
-                });
-
             modelBuilder.Entity("GraTrojmiejska.API.Entities.MapPoint", b =>
                 {
                     b.HasOne("GraTrojmiejska.API.Entities.Coordinate", "Coordinate")
@@ -327,13 +272,15 @@ namespace GraTrojmiejska.API.Migrations
                     b.Navigation("Coordinate");
                 });
 
-            modelBuilder.Entity("GraTrojmiejska.API.Entities.MapPointHistoryElement", b =>
+            modelBuilder.Entity("GraTrojmiejska.API.Entities.MyUser", b =>
                 {
-                    b.HasOne("GraTrojmiejska.API.Entities.MapPoint", null)
-                        .WithMany("History")
-                        .HasForeignKey("MapPointId")
+                    b.HasOne("GraTrojmiejska.API.Entities.Coordinate", "CurrentPosition")
+                        .WithMany()
+                        .HasForeignKey("CurrentPositionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CurrentPosition");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -347,7 +294,7 @@ namespace GraTrojmiejska.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("GraTrojmiejska.API.Entities.AuthUser", null)
+                    b.HasOne("GraTrojmiejska.API.Entities.MyUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -356,7 +303,7 @@ namespace GraTrojmiejska.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("GraTrojmiejska.API.Entities.AuthUser", null)
+                    b.HasOne("GraTrojmiejska.API.Entities.MyUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -371,7 +318,7 @@ namespace GraTrojmiejska.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GraTrojmiejska.API.Entities.AuthUser", null)
+                    b.HasOne("GraTrojmiejska.API.Entities.MyUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -380,16 +327,11 @@ namespace GraTrojmiejska.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("GraTrojmiejska.API.Entities.AuthUser", null)
+                    b.HasOne("GraTrojmiejska.API.Entities.MyUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("GraTrojmiejska.API.Entities.MapPoint", b =>
-                {
-                    b.Navigation("History");
                 });
 #pragma warning restore 612, 618
         }

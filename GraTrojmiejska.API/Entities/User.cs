@@ -1,11 +1,16 @@
-﻿namespace GraTrojmiejska.API.Entities
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace GraTrojmiejska.API.Entities
 {
-    public class User
+     class AuthUser: IdentityUser
+    {  
+    }
+
+    class GameUser 
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public required string Name { get; set; }   
-        public required Coordinate Coordinate { get; set; }
-
+        public required string Name { get; set; } 
+        public Coordinate CurrentPosition { get; set; } = new Coordinate();
 
     }
 }

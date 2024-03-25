@@ -3,18 +3,19 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace GraTrojmiejska.API.Data
 {
-    class DataContext: IdentityDbContext<MyUser>
+    class DataContext: IdentityDbContext<AuthUser>
     {
         public DataContext(DbContextOptions<DataContext> options):base(options) { }
-
-        public DbSet<User> MyUsers => Set<User>();
 
         public DbSet<Coordinate> Coordiantes => Set<Coordinate>();
         public DbSet<MapPoint> MapPoints => Set<MapPoint>();
 
+        public DbSet<GameUser> GameUsers => Set<GameUser>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Coordinate>()
+ 
+         modelBuilder.Entity<Coordinate>()
                      .ToTable("Coordinates");
 
             modelBuilder.Entity<Coordinate>()

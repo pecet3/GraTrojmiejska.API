@@ -2,10 +2,11 @@
 {
     public class Coordinate
     {
+        
         public enum CoordianteType
         {
-            POINT,
-            USER_POSITION
+            MAP_POINT,
+            USER_CURRENT_POSITION
         }
 
        public string Id { get; set; } = Guid.NewGuid().ToString();

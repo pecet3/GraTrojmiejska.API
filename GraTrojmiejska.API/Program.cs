@@ -1,4 +1,6 @@
 using GraTrojmiejska.API.Data;
+using GraTrojmiejska.API.Endpoints;
+using GraTrojmiejska.API.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -15,12 +16,15 @@ var connString = builder.Configuration.GetConnectionString("Database");
 
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(connString));
 
-builder.Services.AddAuthorization();
 
-/*builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
-*/
-builder.Services.AddIdentityApiEndpoints<MyUser>()
-    .AddEntityFrameworkStores<DataContext>();
+builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
+
+builder.Services.AddAuthorizationBuilder();
+
+
+builder.Services.AddIdentityCore<AuthUser>()
+    .AddEntityFrameworkStores<DataContext>()
+    .AddApiEndpoints();
 
 var app = builder.Build();
 
@@ -33,17 +37,10 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.MapIdentityApi<MyUser>();
+app.MapIdentityApi<AuthUser>();
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
-app.MapControllers();
+app.MapEndpointsMapPoints();
 
 app.Run();
-
-class MyUser : IdentityUser
-{
-    public int Test { get; set; }
-}
