@@ -23,7 +23,6 @@ namespace GraTrojmiejska.API.Endpoints
                     var mapPoint = entity.ToDto();
                     dtos.Add(mapPoint);
                 }
-
                 return Results.Ok(dtos);
             });
 
@@ -38,11 +37,16 @@ namespace GraTrojmiejska.API.Endpoints
                 return Results.CreatedAtRoute(GetMapPoints, new { id = mapPoint.Id }, mapPoint);
             });
 
-            group.MapGet("/{id}", async (int id, DataContext dbContext) =>
-            await dbContext.MapPoints
-            .AsNoTracking()
-            .ToListAsync()
+            group.MapGet("/{id}", async (string id, DataContext dbContext) =>
+            {
+                var existingMapPoint = await dbContext.MapPoints.FindAsync(id);
+                if (existingMapPoint is null) return Results.NotFound();
 
+                SummaryMapPointDto mapPointDto = existingMapPoint.ToDto();
+
+                return Results.Ok(mapPointDto);
+
+            }
             ).WithName(GetMapPoints);
 
             return group;
