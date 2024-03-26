@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GraTrojmiejska.API.Endpoints
 {
-    public static class MapPoints
+    public static class EndpointsMapPoints
     {
         const string GetMapPoints = "GetMapPoint";
         public static RouteGroupBuilder MapEndpointsMapPoints(this WebApplication app)

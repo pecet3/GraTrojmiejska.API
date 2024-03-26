@@ -41,7 +41,10 @@ app.MapIdentityApi<AuthUser>();
 
 app.UseHttpsRedirection();
 
+
+app.MapEndpointsGame();
 app.MapEndpointsMapPoints();
+
 
 await app.MigrateDbAsync();
 
