@@ -6,7 +6,8 @@ namespace GraTrojmiejska.API.Dtos
         (
         [Required] string Name,
         [Required] string Description,
+        [Required] string Location,
         [Required] decimal Latitude,
-        [Required] decimal Longtude
+        [Required] decimal Longitude
         );
 }

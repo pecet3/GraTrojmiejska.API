@@ -1,6 +1,7 @@
 ﻿using GraTrojmiejska.API.Dtos;
 using GraTrojmiejska.API.Entities;
 using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 
 namespace GraTrojmiejska.API.Mapping
 {
@@ -16,22 +17,26 @@ namespace GraTrojmiejska.API.Mapping
                 Coordinate = new Coordinate()
                 {
                     Latitude = mapPointDto.Latitude,
-                    Longitude = mapPointDto.Longtude,
+                    Longitude = mapPointDto.Longitude,
                     Type = Coordinate.CoordianteType.MAP_POINT,
-                }
+                },
+                Location = mapPointDto.Location,
             };
         }
 
-        public static MapPoint ToDto(this MapPoint mapPoint)
+        public static SummaryMapPointDto ToDto(this MapPoint mapPoint)
         {
-            return new SummaryMapPointDto()
-            {
-                Id = mapPoint.Id,
-                Name = mapPoint.Name,
-                Description = mapPoint.Description,
-                Latitude = mapPoint.Coordinate.Latitude,
-
-            }
+            return new (
+                Id : mapPoint.Id,
+                Name : mapPoint.Name,
+                Description : mapPoint.Description,
+                Location : mapPoint.Location,
+                Latitude : mapPoint.Coordinate.Latitude,
+                Longitude : mapPoint.Coordinate.Longitude,
+                CurrentOwnerId: mapPoint.CurrentOwnerId,
+                LastCapturedAt : mapPoint.LastCapturedAt,
+                History: mapPoint.History
+                );
         }
     }
    

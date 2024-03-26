@@ -2,14 +2,16 @@
 
 namespace GraTrojmiejska.API.Dtos
 {
-    public  record class SummaryMapPointDto(
+    public record class SummaryMapPointDto
+        (
         string Id,
         string Name,
         string Description,
+        string Location,
         decimal Latitude,
-        decimal Longtude,
+        decimal Longitude,
         string CurrentOwnerId,
-        string LastCapturedAt,
+        DateTime? LastCapturedAt,
         ICollection<MapPointHistoryElement>? History
         );
 
