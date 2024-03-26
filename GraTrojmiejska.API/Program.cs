@@ -43,4 +43,6 @@ app.UseHttpsRedirection();
 
 app.MapEndpointsMapPoints();
 
+await app.MigrateDbAsync();
+
 app.Run();

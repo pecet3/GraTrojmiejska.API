@@ -7,10 +7,8 @@
         public string Description { get; set; } =  string.Empty ;
         public string CurrentOwnerId { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
-        public MapPointHistoryElement[] History { get; set; } =
-        {
-            new MapPointHistoryElement()
-        };
+        public DateTime LastCapturedAt { get; set; }
+        public ICollection<MapPointHistoryElement> History { get; } = new List<MapPointHistoryElement>();
 
         public  Coordinate Coordinate { get; set; } = new Coordinate();
 

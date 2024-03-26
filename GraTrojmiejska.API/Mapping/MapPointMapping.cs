@@ -1,11 +1,12 @@
 ﻿using GraTrojmiejska.API.Dtos;
 using GraTrojmiejska.API.Entities;
+using System.Runtime.CompilerServices;
 
 namespace GraTrojmiejska.API.Mapping
 {
     public static class MapPointMapping
     {
-        public static MapPoint ToEntity(this MapPointDto mapPointDto)
+        public static MapPoint ToEntity(this CreateMapPointDto mapPointDto)
         {
             return new MapPoint()
             {
@@ -20,17 +21,18 @@ namespace GraTrojmiejska.API.Mapping
                 }
             };
         }
-    }
-}
-/*public string Id { get; set; } = Guid.NewGuid().ToString();
-public string Name { get; set; } = string.Empty;
-public string Description { get; set; } = string.Empty;
-public string CurrentOwnerId { get; set; } = string.Empty;
-public DateOnly CreatedAt { get; set; }
-public MapPointHistoryElement[] History { get; set; } =
-{
-            new MapPointHistoryElement()
-        };
 
-public Coordinate Coordinate { get; set; } = new Coordinate();*/
-public Coordinate Coordinate { get; set; } = new Coordinate();*/
+        public static MapPoint ToDto(this MapPoint mapPoint)
+        {
+            return new SummaryMapPointDto()
+            {
+                Id = mapPoint.Id,
+                Name = mapPoint.Name,
+                Description = mapPoint.Description,
+                Latitude = mapPoint.Coordinate.Latitude,
+
+            }
+        }
+    }
+   
+}
