@@ -20,7 +20,7 @@ namespace GraTrojmiejska.API.Data
 
             modelBuilder.Entity<Coordinate>()
                 .Property(c => c.Type)
-                .HasConversion<int>();
+                .HasConversion<string>();
 
             /*  modelBuilder.Entity<Customer>()
                   .Property(c => c.SubscriptionLevel)

@@ -2,6 +2,7 @@
 using GraTrojmiejska.API.Dtos;
 using GraTrojmiejska.API.Entities;
 using GraTrojmiejska.API.Mapping;
+using GraTrojmiejska.API.Migrations;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -13,23 +14,42 @@ namespace GraTrojmiejska.API.Endpoints
         {
             var group = app.MapGroup("game");
 
-            group.MapGet("/map-points/capture/{id}",
-               async (string id, DataContext dbContext, ClaimsPrincipal user) =>
+            group.MapPost("map-points/capture",
+               async (CaptureMapPointDto dto, DataContext dbContext, ClaimsPrincipal user) =>
             {
-               var existingMapPoint = await dbContext.MapPoints.FindAsync(id);
+                var existingMapPoint = await dbContext.MapPoints.FindAsync(dto.MapPointId);
 
-                if (existingMapPoint == null)
+                if (existingMapPoint is null) return Results.NotFound("map point");
+
+                var userName = user.Identity?.Name;
+
+                var existingUser = await dbContext.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+
+                if (existingUser is null) return Results.NotFound("user");
+
+                var newHistoryElement = new MapPointHistoryElement
                 {
-                    return Results.NotFound();
-                }
+                    MapPointId = existingMapPoint.Id,
+                    OwnerId = existingUser.Id,
+                    AchievedScore = 0,
+                    CapturedAt = DateTime.Now,
+                    EndedAt = DateTime.Now,
+                    MapPoint = existingMapPoint
+                };
+
 
                 dbContext.Entry(existingMapPoint)
                     .CurrentValues
-                    .SetValues(existingMapPoint);
+                    .SetValues
+                    (
+                    existingMapPoint.CurrentOwnerId = existingUser.Id
+/*                    existingMapPoint =  existingMapPoint.History.ToList<MapPointHistoryElement>()
+*/                    ); ;
 
                 await dbContext.SaveChangesAsync();
+                var newMapPoint = await dbContext.MapPoints.FindAsync(dto.MapPointId);
 
-                return Results.Accepted();
+                return Results.Accepted(dto.UserId);
 
             }).RequireAuthorization();
 
