@@ -12,7 +12,7 @@ namespace GraTrojmiejska.API.Endpoints
     {
         public static RouteGroupBuilder MapEndpointsGame(this WebApplication app)
         {
-            var group = app.MapGroup("game");
+            var group = app.MapGroup("game").RequireAuthorization();
 
             group.MapPost("map-points/capture",
                async (CaptureMapPointDto dto, DataContext dbContext, ClaimsPrincipal user) =>
@@ -51,7 +51,7 @@ namespace GraTrojmiejska.API.Endpoints
 
                 return Results.Accepted(dto.UserId);
 
-            }).RequireAuthorization();
+            });
 
             return group;
         }
