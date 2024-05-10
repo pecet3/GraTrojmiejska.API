@@ -6,11 +6,10 @@ namespace GraTrojmiejska.API.Entities
     {  
     }
 
-    class GameUser 
+    class AppUser 
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public required string Name { get; set; } 
-        public Coordinate CurrentPosition { get; set; } = new Coordinate();
-
+        public required string Name { get; set; }
+        
     }
 }

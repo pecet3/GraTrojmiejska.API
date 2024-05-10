@@ -2,17 +2,12 @@
 
 namespace GraTrojmiejska.API.Dtos
 {
-    public record class SummaryMapPointDto
+    public record class ToDoTask
         (
         string Id,
         string Name,
         string Description,
-        string Location,
-        decimal Latitude,
-        decimal Longitude,
-        string CurrentOwnerId,
-        DateTime? LastCapturedAt,
-        ICollection<MapPointHistoryElement>? History
+        bool   isCompleted
         );
 
 }

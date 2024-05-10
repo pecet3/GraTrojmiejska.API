@@ -5,9 +5,9 @@ using System.Xml.Linq;
 
 namespace GraTrojmiejska.API.Mapping
 {
-    public static class MapPointMapping
+    public static class UserMapping
     {
-        public static MapPoint ToEntity(this CreateMapPointDto mapPointDto)
+      /*  public static MapPoint ToEntity(this CreateMapPointDto mapPointDto)
         {
             return new MapPoint()
             {
@@ -37,7 +37,7 @@ namespace GraTrojmiejska.API.Mapping
                 LastCapturedAt : mapPoint.LastCapturedAt,
                 History: mapPoint.History
                 );
-        }
+        }*/
     }
    
 }

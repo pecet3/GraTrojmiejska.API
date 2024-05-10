@@ -4,17 +4,32 @@ using GraTrojmiejska.API.Entities;
 using GraTrojmiejska.API.Mapping;
 using GraTrojmiejska.API.Migrations;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Text;
 
 namespace GraTrojmiejska.API.Endpoints
 {
     public static class EndpointsGame
     {
+
         public static RouteGroupBuilder MapEndpointsGame(this WebApplication app)
         {
             var group = app.MapGroup("game").RequireAuthorization();
 
-            group.MapPost("map-points/capture",
+          /*  group.MapPost("attempt-capture",
+                  async (AttemptCaptureDto dto, DataContext dbContext, ClaimsPrincipal user) =>
+                  {
+                      var existingMapPoint = await dbContext.MapPoints.FindAsync(dto.MapPointId);
+
+                      if (existingMapPoint is null) return Results.NotFound("map point");
+
+
+                      return Results.Accepted(dto.UserId);
+                  });
+
+            group.MapPost("capture-point",
                async (CaptureMapPointDto dto, DataContext dbContext, ClaimsPrincipal user) =>
             {
                 var existingMapPoint = await dbContext.MapPoints.FindAsync(dto.MapPointId);
@@ -27,6 +42,7 @@ namespace GraTrojmiejska.API.Endpoints
 
                 if (existingUser is null) return Results.NotFound("user");
 
+
                 var newHistoryElement = new MapPointHistoryElement
                 {
                     MapPointId = existingMapPoint.Id,
@@ -37,14 +53,15 @@ namespace GraTrojmiejska.API.Endpoints
                     MapPoint = existingMapPoint
                 };
 
-
+                await dbContext.MapPointHistoryElement.AddAsync(newHistoryElement);
+                
                 dbContext.Entry(existingMapPoint)
                     .CurrentValues
                     .SetValues
                     (
                     existingMapPoint.CurrentOwnerId = existingUser.Id
-/*                    existingMapPoint =  existingMapPoint.History.ToList<MapPointHistoryElement>()
-*/                    ); ;
+                    ); ;
+
 
                 await dbContext.SaveChangesAsync();
                 var newMapPoint = await dbContext.MapPoints.FindAsync(dto.MapPointId);
@@ -53,7 +70,18 @@ namespace GraTrojmiejska.API.Endpoints
 
             });
 
+          
+*/
             return group;
+
+
         }
+
+   /*     public static RouteGroupBuilder MapHubs(this WebApplication app)
+        {
+            var group = app.MapGroup("game");
+            group.MapHub<CaptureHub>("/anticheat");
+            return group;
+        }*/
     }
 }

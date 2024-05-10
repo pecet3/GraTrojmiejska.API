@@ -2,7 +2,7 @@
 
 namespace GraTrojmiejska.API.Dtos
 {
-    public record class CreateMapPointDto
+    public record class User
         (
         [Required] string Name,
         [Required] string Description,

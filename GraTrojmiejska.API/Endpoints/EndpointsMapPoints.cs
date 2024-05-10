@@ -13,7 +13,7 @@ namespace GraTrojmiejska.API.Endpoints
         {
             var group = app.MapGroup("map-points");
 
-            group.MapGet("/", async (DataContext dbContext) =>
+           /* group.MapGet("/", async (DataContext dbContext) =>
             {
                 ICollection<MapPoint> entities = await dbContext.MapPoints.AsNoTracking().ToListAsync();
                 List<SummaryMapPointDto> dtos = new List<SummaryMapPointDto>();
@@ -47,7 +47,7 @@ namespace GraTrojmiejska.API.Endpoints
                 return Results.Ok(mapPointDto);
 
             }
-            ).WithName(GetMapPoints);
+            ).WithName(GetMapPoints);*/
 
             return group;
         }
