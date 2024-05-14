@@ -4,17 +4,18 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace GraTrojmiejska.API.Data
 {
-    class DataContext: IdentityDbContext<AuthUser>
+    class DataContext: IdentityDbContext<AppUser>
     {
         public DataContext(DbContextOptions<DataContext> options):base(options) { }
-        public DbSet<AppUser> Users => Set<AppUser>();
+
         public DbSet<ToDoTask> ToDoTasks => Set<ToDoTask>();
 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(builder);
+            builder.Entity<AppUser>().Property(u => u.Name).IsRequired();
+            builder.HasDefaultSchema("identity");
         }
     }
 }

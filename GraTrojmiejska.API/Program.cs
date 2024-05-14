@@ -14,6 +14,10 @@ var service = builder.Services;
 service.AddEndpointsApiExplorer();
 service.AddSwaggerGen();
 
+
+builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddEntityFrameworkStores<DataContext>();
+
 var connString = builder.Configuration.GetConnectionString("Database");
 
 service.AddDbContext<DataContext>(options => options.UseSqlite(connString));
@@ -25,7 +29,7 @@ service.AddIdentityCore<AuthUser>()
     .AddEntityFrameworkStores<DataContext>()
     .AddApiEndpoints();
 
-var app = builder.Build();
+var app = builder.Build(); 
 
 
 // Configure the HTTP request pipeline.
@@ -46,11 +50,7 @@ app.MapIdentityApi<AuthUser>();
 
 app.UseHttpsRedirection();
 
-app.MapEndpointsGame();
-
-// I know, it's a weird name
-app.MapEndpointsMapPoints();
-
+app.MapUsers();
 
 await app.MigrateDbAsync();
 

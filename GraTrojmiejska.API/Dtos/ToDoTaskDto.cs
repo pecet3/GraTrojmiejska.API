@@ -7,7 +7,7 @@ namespace GraTrojmiejska.API.Dtos
         string Id,
         string Name,
         string Description,
-        bool   isCompleted
+        bool   IsCompleted
         );
 
 }

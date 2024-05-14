@@ -2,14 +2,10 @@
 
 namespace GraTrojmiejska.API.Entities
 {
-     class AuthUser: IdentityUser
-    {  
+     class  AppUser: IdentityUser
+    {
+        public required string Name { get; set; }
+
     }
 
-    class AppUser 
-    {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-        public required string Name { get; set; }
-        
-    }
 }
